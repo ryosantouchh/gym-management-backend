@@ -1,12 +1,10 @@
 package main
 
 import (
-	// "context"
-	"fmt"
-	"log"
 	"net/http"
+	"ryosantouchh/gym-management-backend/internal/database"
+	"ryosantouchh/gym-management-backend/internal/server"
 
-	// "log"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -88,6 +86,11 @@ func main() {
 	// 	fmt.Fprintf(w, "Hello, %s!", userInfo["name"].(string))
 	// })
 
-	fmt.Println("Server listening on port 8080")
-	http.ListenAndServe(":8080", nil)
+	// fmt.Println("Server listening on port 8080")
+	// http.ListenAndServe(":8080", nil)
+
+	db := database.Connect("dsn")
+
+	httpserver := server.NewServerApp(db)
+	httpserver.Start()
 }
