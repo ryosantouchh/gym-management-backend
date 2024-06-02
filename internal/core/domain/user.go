@@ -1,6 +1,11 @@
 package domain
 
 type User struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	ID        uint   `json:"id"`
+	Username  string `json:"username" gorm:"unique"`
+	Firstname string `json:"firstname"`
+	Lastname  string `json:"lastname"`
+	Age       int    `json:"age"`
+	Email     string `json:"email" gorm:"unique"`
+	IsActive  bool   `json:"isActive"`
 }

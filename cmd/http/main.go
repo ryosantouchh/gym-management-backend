@@ -89,8 +89,8 @@ func main() {
 	// fmt.Println("Server listening on port 8080")
 	// http.ListenAndServe(":8080", nil)
 
-	db := database.Connect("dsn")
+	db := database.Connect()
 
-	httpserver := server.NewServerApp(db)
-	httpserver.Start()
+	app := server.NewServerApp(db)
+	app.Start()
 }
