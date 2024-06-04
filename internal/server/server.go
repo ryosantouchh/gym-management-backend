@@ -10,14 +10,6 @@ type Server struct {
 	db  *gorm.DB
 }
 
-// func Connect(dsn string) *gorm.DB {
-// 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	return db
-// }
-
 func NewServerApp(db *gorm.DB) *Server {
 	ginApp := gin.Default()
 
@@ -30,6 +22,7 @@ func NewServerApp(db *gorm.DB) *Server {
 func (s *Server) Start() {
 	// register all route here
 	s.initUserRouter(s.db)
+	s.initClassRouter(s.db)
 
 	// mock port
 	s.HttpListen(":8080")
@@ -38,4 +31,3 @@ func (s *Server) Start() {
 func (s *Server) HttpListen(port string) {
 	s.app.Run(port)
 }
-

@@ -1,6 +1,7 @@
 package api
 
 import (
+	"net/http"
 	"ryosantouchh/gym-management-backend/internal/core/ports"
 
 	"github.com/gin-gonic/gin"
@@ -17,6 +18,10 @@ func NewApiContext(ctx *gin.Context) *ApiContext {
 
 func (c *ApiContext) JSON(statusCode int, response interface{}) {
 	c.Context.JSON(statusCode, response)
+}
+
+func (c *ApiContext) Request() *http.Request {
+	return c.Context.Request
 }
 
 func GinHandler(handler func(ports.HTTPContext)) gin.HandlerFunc {
