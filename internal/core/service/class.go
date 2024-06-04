@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"ryosantouchh/gym-management-backend/internal/core/entities"
 	"ryosantouchh/gym-management-backend/internal/core/models"
 	"ryosantouchh/gym-management-backend/internal/core/ports"
@@ -27,7 +28,7 @@ func (s *ClassService) CreateClass(req models.Class) error {
 	return nil
 }
 
-func (s *ClassService) GetClasses() (*[]models.Class, error) {
+func (s *ClassService) GetClassList() (*[]models.Class, error) {
 	classes, err := s.repo.Get()
 	if err != nil {
 		return nil, err
@@ -37,12 +38,34 @@ func (s *ClassService) GetClasses() (*[]models.Class, error) {
 	classData := make([]models.Class, 0)
 	for i := range *classes {
 		data := classEntity[i]
-		jsonData := models.Class{
+		createData := models.Class{
 			ID:        data.ID,
 			ClassType: data.ClassType,
 			Duration:  data.Duration,
 		}
-		classData = append(classData, jsonData)
+		classData = append(classData, createData)
 	}
 	return &classData, nil
+}
+
+func (s *ClassService) GetClassByID(id string) (*models.Class, error) {
+	class, err := s.repo.GetByID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	classEntity := *class
+	classData := models.Class{
+		ID:        classEntity.ID,
+		ClassType: classEntity.ClassType,
+		Duration:  classEntity.Duration,
+	}
+	return &classData, nil
+}
+
+func (s *ClassService) UpdateClass(id string, updateClass *models.UpdateClassRequest) error {
+	// fmt.Println(res)
+	err := s.repo.Update(id, updateClass)
+
+	return fmt.Errorf("rest")
 }

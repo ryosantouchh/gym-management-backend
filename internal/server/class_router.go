@@ -16,5 +16,7 @@ func (s *Server) initClassRouter(db *gorm.DB) {
 	classHandler := api.NewClassHandler(*classService)
 
 	classRouter.POST("", api.GinHandler(classHandler.CreateClass))
-	classRouter.GET("", api.GinHandler(classHandler.GetClasses))
+	classRouter.GET("", api.GinHandler(classHandler.GetClassList))
+	classRouter.GET("/:id", api.GinHandler(classHandler.GetClassByID))
+	classRouter.PATCH("/:id", api.GinHandler(classHandler.UpdateClassByID))
 }

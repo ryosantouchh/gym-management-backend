@@ -3,6 +3,7 @@ package repository
 import (
 	"fmt"
 	"ryosantouchh/gym-management-backend/internal/core/entities"
+	"ryosantouchh/gym-management-backend/internal/core/models"
 
 	"gorm.io/gorm"
 )
@@ -30,8 +31,30 @@ func (r *ClassReposityImpl) Get() (*[]entities.Class, error) {
 	result := r.db.Find(&classes)
 
 	if result.Error != nil {
-		err := fmt.Errorf("failed to create class : %w\n", result.Error)
+		err := fmt.Errorf("cannot get classes : %w\n", result.Error)
 		return nil, err
 	}
+
 	return &classes, nil
+}
+
+func (r *ClassReposityImpl) GetByID(id string) (*entities.Class, error) {
+	var class entities.Class
+	result := r.db.Where("id = ?", id).Find(&class)
+
+	if result.RowsAffected == 0 {
+		return nil, gorm.ErrRecordNotFound
+	}
+
+	if result.Error != nil {
+		err := fmt.Errorf("cannot get class : %w\n", result.Error)
+		return nil, err
+	}
+
+	return &class, nil
+}
+
+func (r *ClassReposityImpl) Update(id string, data *entities.Class) error {
+	result := r.db.Model(entities.Class{}).Where("id = ?", id).Updates()
+	return fmt.Errorf("test")
 }

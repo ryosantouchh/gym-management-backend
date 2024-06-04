@@ -24,6 +24,10 @@ func (c *ApiContext) Request() *http.Request {
 	return c.Context.Request
 }
 
+func (c *ApiContext) Param(param string) string {
+	return c.Context.Param(param)
+}
+
 func GinHandler(handler func(ports.HTTPContext)) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		handler(NewApiContext(ctx))
