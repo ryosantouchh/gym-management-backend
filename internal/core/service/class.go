@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"ryosantouchh/gym-management-backend/internal/core/entities"
 	"ryosantouchh/gym-management-backend/internal/core/models"
 	"ryosantouchh/gym-management-backend/internal/core/ports"
@@ -64,8 +63,19 @@ func (s *ClassService) GetClassByID(id string) (*models.Class, error) {
 }
 
 func (s *ClassService) UpdateClass(id string, updateClass *models.UpdateClassRequest) error {
-	// fmt.Println(res)
-	err := s.repo.Update(id, updateClass)
+	updateData := make(map[string]interface{})
+	classData := *updateClass
 
-	return fmt.Errorf("rest")
+	if classData.ClassType != "" {
+		updateData["ClassType"] = classData.ClassType
+	}
+	if classData.Duration != 0 {
+		updateData["Duration"] = classData.Duration
+	}
+
+	err := s.repo.Update(id, classData)
+	if err != nil {
+		return err
+	}
+	return nil
 }

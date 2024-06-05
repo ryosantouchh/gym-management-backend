@@ -28,14 +28,14 @@ func (h *ClassHandler) CreateClass(ctx ports.HTTPContext) {
 	decoder := json.NewDecoder(req.Body)
 	err := decoder.Decode(&classRequest)
 	if err != nil {
-		res := models.ResponseError{Error: "Invalid request body"}
+		res := models.ResponseError{Error: "Invalid request body!"}
 		ctx.JSON(http.StatusBadRequest, res)
 		return
 	}
 
 	err = h.service.CreateClass(classRequest)
 	if err != nil {
-		res := models.ResponseError{Error: "failed to create class"}
+		res := models.ResponseError{Error: "Failed to create class!"}
 		ctx.JSON(http.StatusInternalServerError, res)
 		return
 	}
@@ -49,7 +49,7 @@ func (h *ClassHandler) CreateClass(ctx ports.HTTPContext) {
 func (h *ClassHandler) GetClassList(ctx ports.HTTPContext) {
 	classes, err := h.service.GetClassList()
 	if err != nil {
-		res := models.ResponseError{Error: "failed to get classes"}
+		res := models.ResponseError{Error: "Failed to get classes!"}
 		ctx.JSON(http.StatusInternalServerError, res)
 		return
 	}
@@ -67,10 +67,10 @@ func (h *ClassHandler) GetClassByID(ctx ports.HTTPContext) {
   if err != nil {
     var res models.ResponseError
     if errors.Is(err, gorm.ErrRecordNotFound) {
-      res.Error = "not found class!"
+      res.Error = "Not found class!"
       ctx.JSON(http.StatusNotFound, res)
     } else {
-      res.Error = "failed to get class by id"
+      res.Error = "Failed to get class by ID!"
       ctx.JSON(http.StatusInternalServerError, res)
     }
 		return
@@ -93,7 +93,7 @@ func (h *ClassHandler) UpdateClassByID(ctx ports.HTTPContext) {
   err := decoder.Decode(&updateRequest)
 
 	if err != nil {
-		res := models.ResponseError{Error: "Invalid request body"}
+		res := models.ResponseError{Error: "Invalid request body!"}
 		ctx.JSON(http.StatusBadRequest, res)
 		return
 	}
